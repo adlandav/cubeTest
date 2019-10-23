@@ -17,9 +17,6 @@ public class Move : MonoBehaviour
     public int speed;
     float targetTime;
     float angle = 1.5f;
-    float x = 0;
-    float y = 0;
-    float z = 0;
     bool start = false;
     Vector3 rotDir;
 
@@ -38,7 +35,7 @@ public class Move : MonoBehaviour
         {
             if (!start)
             {
-                rotDir = new Vector3(-angle, 0, 0);
+                rotDir = Vector3.left;
                 start = true;
             }
         }
@@ -46,7 +43,7 @@ public class Move : MonoBehaviour
         {
             if (!start)
             {
-                rotDir = new Vector3(angle, 0, 0);
+                rotDir = Vector3.right;
                 start = true;
             }
         }
@@ -54,7 +51,7 @@ public class Move : MonoBehaviour
         {
             if (!start)
             {
-                rotDir = new Vector3(0, 0, -angle);
+                rotDir = Vector3.back;
                 start = true;
             }
         }
@@ -64,7 +61,7 @@ public class Move : MonoBehaviour
             {
                 if (!start)
                 {
-                    rotDir = new Vector3(0, 0, angle);
+                    rotDir = Vector3.forward;
                     start = true;
                 }
             }
@@ -74,14 +71,10 @@ public class Move : MonoBehaviour
         if (start)
         {
             targetTime -= Time.deltaTime;
-            x += rotDir.x;
-            y += rotDir.y;
-            z += rotDir.z;
-            transform.rotation = Quaternion.Euler(x, y, z);
+            transform.RotateAround(Vector3.zero, rotDir, angle);
         }
         if (targetTime <= 0.0f)
         {
-            //Debug.LogError(x);
             targetTime = baseTime / speed;
             start = false;
         }
